@@ -1,0 +1,25 @@
+# Excluir carpetas de compilación
+bin/
+obj/
+
+# Excluir archivos generados automáticamente
+*.dll
+*.exe
+*.pdb
+*.runtimeconfig.json
+*.deps.json
+
+# Ignorar archivos con extensión .vsidx
+*.vsidx
+
+# Ignorar archivos de caché
+*.v2
+
+# Visual Studio
+.vs/
+*.suo
+*.cache
+*.bin
+*.user
+*.obj/
+*.Backup.json
