@@ -1,0 +1,6 @@
+@creditosBG_HostAddress = http://localhost:5267
+
+GET {{creditosBG_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
