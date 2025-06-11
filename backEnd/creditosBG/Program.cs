@@ -10,6 +10,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CreditosBgContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Configuracion de CORS para Angular
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        policy => policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+builder.Services.AddControllers();//registrar los controladores para el mapeo
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +31,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngularApp");
+app.MapControllers();
 
 var summaries = new[]
 {
