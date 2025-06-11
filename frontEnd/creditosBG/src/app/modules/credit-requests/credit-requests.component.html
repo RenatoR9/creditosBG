@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let request of creditRequests">
+      <tr *ngFor="let request of requestsList">
         <td>{{ request.amountRequested }}</td>
         <td>{{ request.termInMonths }}</td>
         <td>{{ request.monthlyIncome }}</td>
@@ -21,34 +21,68 @@
         <td>{{ request.status }}</td>
         <td>
           <button class="btn btn-primary" (click)="editRequest(request)">Editar</button>
-          <button class="btn btn-danger" (click)="deleteRequest(request)">Eliminar</button>
+          <button class="btn btn-danger" (click)="deleteRequest(request.id)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
 
   <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
+<button type="button" class="btn btn-primary" (click)="createdRequest()">
+  Crear Solicitud
 </button>
 
   
 </div>
 
 <!-- Modal para crear nueva solicitud -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade show d-block" *ngIf="showCreateModal" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true" role="dialog" style="background: rgba(0,0,0,0.5)">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="requestModalLabel">{{modalTitle}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form #loanForm="ngForm">
+          <!-- Hidden ID -->
+          <input type="hidden" [(ngModel)]="request.id" name="id">
+
+          <!-- Requested Amount -->
+          <div class="mb-3">
+            <label for="amountRequested" class="form-label">Monto Solicitado</label>
+            <input type="number" class="form-control" id="amountRequested" name="amountRequested" [(ngModel)]="request.amountRequested" required>
+          </div>
+
+          <!-- Term (Months) -->
+          <div class="mb-3">
+            <label for="termInMonths" class="form-label">Plazo (Meses)</label>
+            <input type="number" class="form-control" id="termInMonths" name="termInMonths" [(ngModel)]="request.termInMonths" required>
+          </div>
+
+          <!-- Monthly Income -->
+          <div class="mb-3">
+            <label for="monthlyIncome" class="form-label">Ingreso Mensual</label>
+            <input type="number" class="form-control" id="monthlyIncome" name="monthlyIncome" [(ngModel)]="request.monthlyIncome" 
+            (ngModelChange)="onMonthlyIncomeChange()" required>
+          </div>
+
+          <!-- Employment Length -->
+          <div class="mb-3">
+            <label for="workSeniorityYears" class="form-label">Antigüedad Laboral</label>
+            <input type="number" class="form-control" id="workSeniorityYears" name="workSeniorityYears" [(ngModel)]="request.workSeniorityYears" required>
+          </div>
+
+          <!-- Status -->
+          <div class="mb-3">
+            <label for="status" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="status" name="status" [(ngModel)]="request.status" required disabled="true">
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalCreditRequest()">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="saveCreditRequest()" [disabled]="!loanForm.valid">Guardar</button>
       </div>
     </div>
   </div>
