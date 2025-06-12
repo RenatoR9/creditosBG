@@ -1,0 +1,42 @@
+<div class="container">
+  <h1>Gestión de Solicitudes de Crédito</h1>
+
+  <!-- Filtro por estado -->
+  <div class="mb-3">
+    <label for="filterStatus" class="form-label">Filtrar por Estado:</label>
+    <input type="text" class="form-control" id="filterStatus" [(ngModel)]="filterStatus" (input)="filterRequests()">
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th tyle="width: 150px;">Monto Solicitado</th>
+        <th tyle="width: 150px;">Plazo (Meses)</th>
+        <th tyle="width: 150px;">Ingreso Mensual</th>
+        <th tyle="width: 150px;">Antigüedad Laboral</th>
+        <th tyle="width: 150px;">Estado</th>
+        <th style="width: 300px;">Editar Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of filteredRequests">
+        <td>{{ request.amountRequested }}</td>
+        <td>{{ request.termInMonths }}</td>
+        <td>{{ request.monthlyIncome }}</td>
+        <td>{{ request.workSeniorityYears }}</td>
+        <td>{{ request.status }}</td>
+        <td>
+          <div class="d-flex align-items-center">
+          <select class="form-select me-2" [(ngModel)]="request.status">
+            <option value="pendiente">Pendiente</option>
+            <option value="aprobado">Aprobado</option>
+            <option value="rechazado">Rechazado</option>
+          </select>
+          <button class="btn btn-primary btn-sm" (click)="saveStatus(request)">Guardar</button>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

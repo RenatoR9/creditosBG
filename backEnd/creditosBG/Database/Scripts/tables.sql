@@ -27,12 +27,12 @@ CREATE TABLE CreditRequests (
 
 CREATE TABLE AuditLogs (
     Id INT PRIMARY KEY IDENTITY(1,1),
-    Action NVARCHAR(100) NOT NULL,               
-    Entity NVARCHAR(100) NOT NULL,               
-    EntityId INT NULL,                           
-    UserId INT NOT NULL,                         
-    Timestamp DATETIME NOT NULL DEFAULT GETDATE(), 
-    Details NVARCHAR(MAX) NULL,                 
-    
+    CreationDate DATETIME NOT NULL DEFAULT GETDATE(),
+	UserId INT NOT NULL,
+	Details NVARCHAR(MAX) NULL, 
+    Entity NVARCHAR(100) NOT NULL,              
+    EntityId INT NULL,
+	OldStatus NVARCHAR(100) NOT NULL,
+	NewStatus NVARCHAR(100) NOT NULL,
     FOREIGN KEY (UserId) REFERENCES Users(Id)
 );

@@ -1,4 +1,5 @@
 using creditosBG.Models;
+using creditosBG.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();//registrar los controladores para el mapeo
+builder.Services.AddScoped<ViewCreditRequestService>();
 
 var app = builder.Build();
 

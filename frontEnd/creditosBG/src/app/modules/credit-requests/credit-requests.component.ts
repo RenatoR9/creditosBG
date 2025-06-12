@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CreditRequest } from '../../Models/request.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CreditRequestService } from '../../Services/services/credit-request.service';
+import { CreditRequestService } from '../../Services/credit-request.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-credit-requests',
@@ -29,7 +30,8 @@ export class CreditRequestsComponent implements OnInit{
   };
   
   constructor(
-    private service: CreditRequestService
+    private service: CreditRequestService,
+    private router: Router
   ) {}
 
   
@@ -102,5 +104,9 @@ export class CreditRequestsComponent implements OnInit{
   closeModalCreditRequest(){
     this.showCreateModal = false;
     this.clearRequest();
+  }
+
+  viewRequest(){
+    this.router.navigate(['/viewCreditRequest']);
   }
 }
