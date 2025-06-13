@@ -16,6 +16,7 @@ export class AppComponent implements OnInit{
   title = 'creditosBG';
 
   role: string | null = null;
+  roleName: string | null = null;
   userName: string | null = null;
   loggedInStatus: boolean = false;
   private tokenSub?: Subscription
@@ -34,13 +35,16 @@ export class AppComponent implements OnInit{
         const decoded: any = jwtDecode(token);
         this.userName = decoded['Name'] || decoded['unique_name'] || decoded['name'];
         this.role = decoded['RoleId'] || null;
+        this.roleName = decoded['role'] || null;
       } catch {
         this.userName = null;
         this.role = null;
+        this.roleName =  null;
       }
     } else {
       this.userName = null;
       this.role = null;
+      this.roleName =  null;
     }
   });
 
@@ -53,6 +57,7 @@ export class AppComponent implements OnInit{
        const decoded: any = jwtDecode(token);
        this.userName = decoded.unique_name || decoded.name || decoded.UserName || decoded.Name || decoded.sub || null;
         this.role = decoded.RoleId || null;
+         this.roleName = decoded.role || null;
       } catch (error) {
         console.error('Error decodificando token:', error);
         this.role = null;
@@ -63,11 +68,11 @@ export class AppComponent implements OnInit{
   }
 
   isSolicitante(): boolean {
-  return this.role === '1';
+  return this.roleName === 'Solicitante';
 }
 
 isAnalista(): boolean {
-  return this.role === '2';
+  return this.roleName === 'Analista';
 }
 
   isLoggedIn(): boolean {
