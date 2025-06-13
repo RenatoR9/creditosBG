@@ -1,5 +1,7 @@
 se debe crear una base de datos en sql server version 20 con el nombre de SolicitudCreditoBG y ejecutar el script de las tablas
-luego ejecutar el insert de datos  
+luego ejecutar el insert de datos  PARA QUE HAYA UN USUARIO ANALISTA por defecto ya que solo se registra un usuario solicitante
+
+la contrasenia encriptada es 123456
 
 Dependencias e indicaciones
 FRONT
