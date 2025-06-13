@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav *ngIf="loggedInStatus" class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Solicitudes App</a>
+    <a class="navbar-brand">Solicitudes App</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -13,16 +13,34 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
+      <ul class="navbar-nav me-auto">
+        <!-- Menú para solicitantes -->
+        <li class="nav-item" *ngIf="isSolicitante()">
           <a class="nav-link" routerLink="/createCreditRequest" routerLinkActive="active">Crear Solicitud</a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item" *ngIf="isAnalista()">
           <a class="nav-link" routerLink="/viewCreditRequest" routerLinkActive="active">Ver Solicitudes</a>
-        </li> -->
+        </li>
+
+        <!-- Menú para analistas -->
+        <li class="nav-item" *ngIf="isAnalista()">
+          <a class="nav-link" routerLink="/manageCreditStatus" routerLinkActive="active">Gestionar Estados</a>
+        </li>
+      </ul>
+
+      <!-- Usuario y logout a la derecha -->
+  <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item me-2" *ngIf="userName">
+          <span class="navbar-text text-white">
+            {{ userName }}
+          </span>
+        </li>
+        <li class="nav-item" *ngIf="userName">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">Cerrar sesión</button>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>

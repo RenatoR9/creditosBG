@@ -1,6 +1,9 @@
+using System.Text;
 using creditosBG.Models;
 using creditosBG.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +23,32 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
+// Leer la clave desde appsettings.json
+var jwtKey = builder.Configuration.GetSection("Jwt:Key").Value;
+var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+
+// Agregar autenticacion JWT
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+    };
+});
+
+builder.Services.AddAuthorization();
 builder.Services.AddControllers();//registrar los controladores para el mapeo
 builder.Services.AddScoped<ViewCreditRequestService>();
+builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
 
@@ -34,6 +61,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAngularApp");
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 var summaries = new[]
