@@ -1,5 +1,5 @@
-en el caso de ejecutar los mismos comando debe crear una base de datos en sql server version 20 con el nombre de SolicitudCreditoBG y ejecutar el script de las tablas
-luego ejecutar el insert de datos
+se debe crear una base de datos en sql server version 20 con el nombre de SolicitudCreditoBG y ejecutar el script de las tablas
+luego ejecutar el insert de datos  
 
 Dependencias e indicaciones
 FRONT
