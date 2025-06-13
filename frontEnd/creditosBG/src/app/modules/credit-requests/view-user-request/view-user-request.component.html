@@ -32,11 +32,69 @@
             <option value="aprobado">Aprobado</option>
             <option value="rechazado">Rechazado</option>
           </select>
-          <button class="btn btn-primary btn-sm" (click)="saveStatus(request)">Guardar</button>
+          <button class="btn btn-primary btn-sm me-2" (click)="saveStatus(request)">
+            <i class="bi bi-save me-1"></i> Guardar
+          </button>
+
+        <button class="btn btn-info btn-sm" (click)="viewRequest(request)">
+          <i class="bi bi-eye me-1"></i> Ver
+        </button>
         </div>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Modal para crear nueva solicitud -->
+<div class="modal fade show d-block" *ngIf="showCreateModal" id="requestModal" tabindex="-1" aria-labelledby="requestModalLabel" aria-hidden="true" role="dialog" style="background: rgba(0,0,0,0.5)">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="requestModalLabel">{{modalTitle}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #loanForm="ngForm">
+          <!-- id oculto de la solicitud -->
+          <input type="hidden" [(ngModel)]="request.id" name="id">
+
+          <!-- Monto Solicitado -->
+          <div class="mb-3">
+            <label for="amountRequested" class="form-label">Monto Solicitado</label>
+            <input type="number" class="form-control" id="amountRequested" name="amountRequested" [(ngModel)]="request.amountRequested" required disabled="true">
+          </div>
+
+          <!-- Plazo (Meses) -->
+          <div class="mb-3">
+            <label for="termInMonths" class="form-label">Plazo (Meses)</label>
+            <input type="number" class="form-control" id="termInMonths" name="termInMonths" [(ngModel)]="request.termInMonths" required disabled="true">
+          </div>
+
+          <!-- Ingreso Mensual -->
+          <div class="mb-3">
+            <label for="monthlyIncome" class="form-label">Ingreso Mensual</label>
+            <input type="number" class="form-control" id="monthlyIncome" name="monthlyIncome" [(ngModel)]="request.monthlyIncome" 
+            required disabled="true">
+          </div>
+
+          <!-- Antigüedad Laboral -->
+          <div class="mb-3">
+            <label for="workSeniorityYears" class="form-label">Antigüedad Laboral</label>
+            <input type="number" class="form-control" id="workSeniorityYears" name="workSeniorityYears" [(ngModel)]="request.workSeniorityYears" required disabled="true">
+          </div>
+
+          <!-- Estado -->
+          <div class="mb-3">
+            <label for="status" class="form-label">Estado</label>
+            <input type="text" class="form-control" id="status" name="status" [(ngModel)]="request.status" required disabled="true">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalViewCreditRequest()">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 

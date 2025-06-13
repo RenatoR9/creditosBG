@@ -25,9 +25,8 @@ export class AuthService {
   login(userName: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { userName, passwordUser: password })
       .pipe(tap(response => {
-        console.log('Nuevo token emitido:', response.token);
         localStorage.setItem('token', response.token);
-         this.tokenSubject.next(response.token);  // <-- AQUI es lo importante
+         this.tokenSubject.next(response.token);
       this.loggedIn.next(true);
       }));
   }
@@ -36,14 +35,14 @@ export class AuthService {
   return this.http.post(
     `${this.apiUrl}/register`,
     { userName, passwordUser: password },
-    { responseType: 'text' }  // <-- Aquí le dices que la respuesta es texto plano
+    { responseType: 'text' }
   );
 }
 
   logout() {
     localStorage.removeItem('token');
-     this.tokenSubject.next(null);   // <-- Importante también
-  this.loggedIn.next(false);
+    this.tokenSubject.next(null);
+    this.loggedIn.next(false);
   }
 
   isLoggedIn(): Observable<boolean> {
@@ -70,5 +69,31 @@ export class AuthService {
     getCurrentToken(): Observable<string | null> {
     return this.tokenSubject.asObservable();
   }
+
+  getUserIdFromToken(): number | null {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  try {
+    const decoded: any = jwtDecode(token);
+    return parseInt(decoded['UserId']) || null;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+  getRoleIdFromToken(): number | null {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  try {
+    const decoded: any = jwtDecode(token);
+    return parseInt(decoded['RoleId']) || null;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
 
 }

@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>Historial de Solicitudes de Crédito</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th tyle="width: 150px;">Monto Solicitado</th>
+        <th tyle="width: 150px;">Plazo (Meses)</th>
+        <th tyle="width: 150px;">Ingreso Mensual</th>
+        <th tyle="width: 150px;">Antigüedad Laboral</th>
+        <th tyle="width: 150px;">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of historyList">
+        <td>{{ request.amountRequested }}</td>
+        <td>{{ request.termInMonths }}</td>
+        <td>{{ request.monthlyIncome }}</td>
+        <td>{{ request.workSeniorityYears }}</td>
+        <td>{{ request.status }}</td>        
+      </tr>
+    </tbody>
+  </table>
+</div>
+

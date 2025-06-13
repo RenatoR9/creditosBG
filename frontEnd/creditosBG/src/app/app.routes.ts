@@ -20,6 +20,10 @@ export const routes: Routes = [
   {
     path: 'viewCreditRequest',
     loadComponent: () => import('./modules/credit-requests/view-user-request/view-user-request.component').then(m => m.ViewUserRequestComponent)
+  }, 
+  {
+    path: 'viewHistoryCreditRequest',
+    loadComponent: () => import('./modules/view-history-credit-request/view-history-credit-request.component').then(m => m.ViewHistoryCreditRequestComponent)
   },
   {
     path: '',

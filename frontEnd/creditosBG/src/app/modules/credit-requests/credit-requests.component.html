@@ -27,15 +27,9 @@
     </tbody>
   </table>
 
-  <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" (click)="createdRequest()">
   Crear Solicitud
 </button>
-
-<button type="button" class="btn btn-primary" (click)="viewRequest()">
-  ver Solicitud
-</button>
-
   
 </div>
 
@@ -49,35 +43,35 @@
       </div>
       <div class="modal-body">
         <form #loanForm="ngForm">
-          <!-- Hidden ID -->
+          <!-- id oculto de la solicitud para poder actualiar datos y evaluar si es nuevo o no -->
           <input type="hidden" [(ngModel)]="request.id" name="id">
 
-          <!-- Requested Amount -->
+          <!-- Monto Solicitado -->
           <div class="mb-3">
             <label for="amountRequested" class="form-label">Monto Solicitado</label>
             <input type="number" class="form-control" id="amountRequested" name="amountRequested" [(ngModel)]="request.amountRequested" required>
           </div>
 
-          <!-- Term (Months) -->
+          <!-- Plazo (Meses) -->
           <div class="mb-3">
             <label for="termInMonths" class="form-label">Plazo (Meses)</label>
             <input type="number" class="form-control" id="termInMonths" name="termInMonths" [(ngModel)]="request.termInMonths" required>
           </div>
 
-          <!-- Monthly Income -->
+          <!-- Ingreso Mensual -->
           <div class="mb-3">
             <label for="monthlyIncome" class="form-label">Ingreso Mensual</label>
             <input type="number" class="form-control" id="monthlyIncome" name="monthlyIncome" [(ngModel)]="request.monthlyIncome" 
             (ngModelChange)="onMonthlyIncomeChange()" required>
           </div>
 
-          <!-- Employment Length -->
+          <!-- Antigüedad Laboral -->
           <div class="mb-3">
             <label for="workSeniorityYears" class="form-label">Antigüedad Laboral</label>
             <input type="number" class="form-control" id="workSeniorityYears" name="workSeniorityYears" [(ngModel)]="request.workSeniorityYears" required>
           </div>
 
-          <!-- Status -->
+          <!-- Estado -->
           <div class="mb-3">
             <label for="status" class="form-label">Estado</label>
             <input type="text" class="form-control" id="status" name="status" [(ngModel)]="request.status" required disabled="true">

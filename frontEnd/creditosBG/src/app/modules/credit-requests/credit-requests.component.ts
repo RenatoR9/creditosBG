@@ -3,7 +3,8 @@ import { CreditRequest } from '../../Models/request.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CreditRequestService } from '../../Services/credit-request.service';
-import { Router } from '@angular/router';
+import { AuthService } from '../../Services/auth.service';
+import { NotifyService } from '../../Services/notify.service';
 
 @Component({
   selector: 'app-credit-requests',
@@ -31,19 +32,30 @@ export class CreditRequestsComponent implements OnInit{
   
   constructor(
     private service: CreditRequestService,
-    private router: Router
+    private auth: AuthService,
+    private notify: NotifyService
   ) {}
 
   
 
   ngOnInit() {
-    this.loadRequests();    
+    this.loadRequests(); 
+    this.request.userId = Number(this.auth.getUserIdFromToken());   
   }
 
   loadRequests() {
-    this.service.getAll().subscribe(data => {
+    //valida si es solicitante para que muestre los datos del usuario logueado
+    if(this.auth.getRoleIdFromToken() === 1 ){
+       this.service.getByIdUserHistoryRequest().subscribe(data => {
       this.requestsList = data;
     });
+    }else{
+      // si es analista puede ver todos
+      this.service.getAll().subscribe(data => {
+      this.requestsList = data;
+    });
+    }
+   
   }
 
   editRequest(item: CreditRequest) {
@@ -58,25 +70,30 @@ export class CreditRequestsComponent implements OnInit{
         this.loadRequests();
         this.modalTitle = 'Editar Solicitud';  
         this.showCreateModal = false;
+        this.notify.success('Se actualizo correctamente.');
       });
     } else {
       this.service.create(this.request).subscribe(() => {
         this.loadRequests();
         this.showCreateModal = false;
         this.clearRequest();
+        this.notify.success('Se registro correctamente.');
       });
     }
   }
 
   deleteRequest(id: number) {
-    if (confirm('¿Está seguro de eliminar la solicitud?')) {
-      this.service.delete(id).subscribe(() => {
-        this.loadRequests();
-      });
-    }
+    this.notify.confirmDeletion().then((confirmed) => {
+      if (confirmed) {
+        this.service.delete(id).subscribe(() => {
+            this.loadRequests();
+        });   
+      }
+    });
   }
 
   onMonthlyIncomeChange(){
+    //validacion para setear estado dependiendo de los ingresos
     if(this.request.monthlyIncome >= 1500){
       this.request.status = 'aprobado'
     }else{
@@ -85,8 +102,9 @@ export class CreditRequestsComponent implements OnInit{
   }
 
   createdRequest() {
+    this.clearRequest();
     this.modalTitle = 'Crear Solicitud';  
-      this.showCreateModal = true;
+    this.showCreateModal = true;      
   }
 
   clearRequest() {
@@ -96,17 +114,13 @@ export class CreditRequestsComponent implements OnInit{
       termInMonths: 0,
       monthlyIncome: 0,
       workSeniorityYears: 0,
-      status: '',
-      userId: 1
+      status: 'pendiente',
+      userId: Number(this.auth.getUserIdFromToken())
     };
   }
 
   closeModalCreditRequest(){
     this.showCreateModal = false;
     this.clearRequest();
-  }
-
-  viewRequest(){
-    this.router.navigate(['/viewCreditRequest']);
   }
 }

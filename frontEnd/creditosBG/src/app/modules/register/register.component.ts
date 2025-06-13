@@ -27,7 +27,6 @@ userName = '';
       this.router.navigate(['/login']);
     },
     error: (err) => {
-      console.log('Error backend:', err);
       if (typeof err.error === 'string') {
         this.errorMessage = err.error;
       } else if (err.error && err.error.message) {

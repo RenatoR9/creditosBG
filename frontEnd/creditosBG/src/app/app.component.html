@@ -18,13 +18,13 @@
         <li class="nav-item" *ngIf="isSolicitante()">
           <a class="nav-link" routerLink="/createCreditRequest" routerLinkActive="active">Crear Solicitud</a>
         </li>
-        <li class="nav-item" *ngIf="isAnalista()">
-          <a class="nav-link" routerLink="/viewCreditRequest" routerLinkActive="active">Ver Solicitudes</a>
+        <li class="nav-item" *ngIf="isSolicitante()">
+          <a class="nav-link" routerLink="/viewHistoryCreditRequest" routerLinkActive="active">Ver Historial de Creditos</a>
         </li>
 
         <!-- Menú para analistas -->
         <li class="nav-item" *ngIf="isAnalista()">
-          <a class="nav-link" routerLink="/manageCreditStatus" routerLinkActive="active">Gestionar Estados</a>
+          <a class="nav-link" routerLink="/viewCreditRequest" routerLinkActive="active">Gestionar Estados</a>
         </li>
       </ul>
 

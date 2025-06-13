@@ -17,6 +17,20 @@ export class ViewUserRequestComponent implements OnInit{
   requestsList: CreditRequest[] = [];
   filteredRequests: CreditRequest[] = [];
   filterStatus: string = '';
+  showCreateModal: boolean = false;
+  modalTitle: string = '';
+  isModalOpen = false;
+
+
+  request: CreditRequest  = {
+      id : 0,
+      amountRequested : 0,
+      termInMonths : 0,
+      monthlyIncome : 0,
+      workSeniorityYears : 0,
+      status : 'pendiente',
+      userId: 1
+  };
 
   constructor(private creditRequestService: CreditRequestService,
     private viewRequestService:  UpdateCreditRequestService,
@@ -54,5 +68,15 @@ export class ViewUserRequestComponent implements OnInit{
     }
   });
 }
+
+  viewRequest(item: CreditRequest) {
+    this.modalTitle = 'Editar Solicitud';
+    this.request = { ...item };
+    this.showCreateModal = true;
+  }
+
+  closeModalViewCreditRequest(){
+    this.showCreateModal = false;
+  }
 
 }

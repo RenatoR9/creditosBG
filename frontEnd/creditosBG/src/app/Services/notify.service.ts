@@ -44,4 +44,18 @@ success(message: string, title: string = 'Éxito') {
     });
   }
 
+  confirmDeletion(message: string = '¿Estás seguro de eliminar la solicitud?', title: string = 'Confirmación'): Promise<boolean> {
+  return Swal.fire({
+    title: title,
+    text: message,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'No, cancelar',
+    reverseButtons: true
+  }).then((result) => {
+    return result.isConfirmed;
+  });
+}
+
 }

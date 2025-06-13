@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { CreditRequest } from '../Models/request.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { CreditRequest } from '../Models/request.model';
 export class CreditRequestService {
   private apiUrl = 'https://localhost:7094/api/CreditRequest';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   getAll(): Observable<CreditRequest[]> {
     return this.http.get<CreditRequest[]>(this.apiUrl);
@@ -29,5 +30,15 @@ export class CreditRequestService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+    getByIdUserHistoryRequest(): Observable<CreditRequest[]> {
+    const userId = this.auth.getUserIdFromToken();
+
+    if (!userId) {
+      return throwError(() => new Error('No se pudo obtener el ID del usuario.'));
+    }
+
+    return this.http.get<CreditRequest[]>(`${this.apiUrl}/user/${userId}`);
   }
 }

@@ -60,8 +60,6 @@ export class AppComponent implements OnInit{
     } else {
       this.role = null;
     }
-
-    console.log('this.role load',this.role);
   }
 
   isSolicitante(): boolean {
