@@ -31,7 +31,6 @@ END
     SET Status = @NewStatus
     WHERE Id = @EntityId
 
-	select * from AuditLogs
     -- Registrar en auditoría
     INSERT INTO AuditLogs(CreationDate, UserId, Details, Entity, EntityId, OldStatus,NewStatus)
     VALUES (GETDATE(), @UserId,'', '', '',@OldStatus,@NewStatus)
