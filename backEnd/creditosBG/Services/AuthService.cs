@@ -24,6 +24,7 @@ namespace creditosBG.Services
         public async Task<string> AuthenticateAsync(string userName, string password)
         {
             var user = await _bd.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Username == userName);
 
             if (user == null)
@@ -44,7 +45,8 @@ namespace creditosBG.Services
                 {
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim("UserId", user.Id.ToString()),
-                new Claim("RoleId", user.RoleId.ToString())
+                new Claim("RoleId", user.RoleId.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.RoleName)
             }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

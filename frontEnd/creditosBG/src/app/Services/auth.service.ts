@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
@@ -94,6 +94,13 @@ export class AuthService {
     console.error(e);
     return null;
   }
+}
+
+createAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+    });
 }
 
 }

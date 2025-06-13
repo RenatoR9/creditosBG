@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using creditosBG.Models;
 using creditosBG.Services;
@@ -41,7 +42,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
+        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+        RoleClaimType = ClaimTypes.Role
     };
 });
 

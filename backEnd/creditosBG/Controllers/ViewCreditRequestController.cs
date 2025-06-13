@@ -1,9 +1,11 @@
 ﻿using creditosBG.Dtos;
 using creditosBG.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace creditosBG.Controllers
 {
+    [Authorize(Roles = "Analista")]
     [Route("api/[controller]")]
     [ApiController]
     public class ViewCreditRequestController : ControllerBase
@@ -16,6 +18,8 @@ namespace creditosBG.Controllers
         }
 
         [HttpPut("updateStatus")]
+        [Authorize(Roles = "Analista")]
+
         public async Task<IActionResult> UpdateStatus([FromBody] UpdateCreditRequestStatusDto dto)
         {
             try
